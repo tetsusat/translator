@@ -7,5 +7,6 @@ RUN apk-install -t build-deps build-base go git mercurial \
         && export GOPATH=/go \
         && go get \
         && go build -o /bin/translator \
+        && cp -R playbooks / \
         && rm -rf /go \
         && apk del --purge build-deps
