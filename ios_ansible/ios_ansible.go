@@ -33,7 +33,7 @@ type IOSAnsibleAdapter struct {
 
 func (r *IOSAnsibleAdapter) AddTenant(tenant bridge.TenantConfig) error {
 	b, err := json.Marshal(tenant)
-	args := fmt.Sprintf("ansible-playbook ~/playbooks/ios-add-tenant.yml -i %s, --extra-vars '%s'", r.ip, string(b))
+	args := fmt.Sprintf("ansible-playbook /playbooks/ios-add-tenant.yml -i %s, --extra-vars '%s'", r.ip, string(b))
 	log.Println(args)
 	cmd := exec.Command("sh", "-c", args)
 	var out bytes.Buffer
@@ -54,7 +54,7 @@ func (r *IOSAnsibleAdapter) DeleteTenant(id string) error {
 	log.Printf("ID: %s", id)
 	tenant, _ := r.tenantConfigs[id]
 	b, err := json.Marshal(tenant)
-	args := fmt.Sprintf("ansible-playbook ~/playbooks/ios-delete-tenant.yml -i %s, --extra-vars '%s'", r.ip, string(b))
+	args := fmt.Sprintf("ansible-playbook /playbooks/ios-delete-tenant.yml -i %s, --extra-vars '%s'", r.ip, string(b))
 	log.Println(args)
 	cmd := exec.Command("sh", "-c", args)
 	var out bytes.Buffer
@@ -73,7 +73,7 @@ func (r *IOSAnsibleAdapter) DeleteTenant(id string) error {
 
 func (r *IOSAnsibleAdapter) AddFloatingIP(float bridge.FloatingIPConfig) error {
 	b, err := json.Marshal(float)
-	args := fmt.Sprintf("ansible-playbook ~/playbooks/ios-add-floating-ip.yml -i %s, --extra-vars '%s'", r.ip, string(b))
+	args := fmt.Sprintf("ansible-playbook /playbooks/ios-add-floating-ip.yml -i %s, --extra-vars '%s'", r.ip, string(b))
 	log.Println(args)
 	cmd := exec.Command("sh", "-c", args)
 	var out bytes.Buffer
@@ -95,7 +95,7 @@ func (r *IOSAnsibleAdapter) DeleteFloatingIP(id string) error {
 	log.Printf("Global IP: %s", float.GlobalIP)
 	if float.GlobalIP != "" {
 		b, err := json.Marshal(float)
-		args := fmt.Sprintf("ansible-playbook ~/playbooks/ios-delete-floating-ip.yml -i %s, --extra-vars '%s'", r.ip, string(b))
+		args := fmt.Sprintf("ansible-playbook /playbooks/ios-delete-floating-ip.yml -i %s, --extra-vars '%s'", r.ip, string(b))
 		log.Println(args)
 		cmd := exec.Command("sh", "-c", args)
 		var out bytes.Buffer
@@ -117,7 +117,7 @@ func (r *IOSAnsibleAdapter) DeleteFloatingIP(id string) error {
 func (r *IOSAnsibleAdapter) Sync(all bridge.AllConfig) error {
 	b, err := json.Marshal(all)
 	log.Printf("%s", string(b))
-	args := fmt.Sprintf("ansible-playbook ~/playbooks/ios-add-all.yml -i %s, --extra-vars '%s'", r.ip, string(b))
+	args := fmt.Sprintf("ansible-playbook /playbooks/ios-add-all.yml -i %s, --extra-vars '%s'", r.ip, string(b))
 	log.Println(args)
 	cmd := exec.Command("sh", "-c", args)
 	var out bytes.Buffer
