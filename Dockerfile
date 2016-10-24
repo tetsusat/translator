@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:3.3
+FROM gliderlabs/alpine:edge
 ENTRYPOINT ["/bin/translator"]
 
 COPY . /go/src/github.com/tetsusat/translator
@@ -10,3 +10,5 @@ RUN apk-install -t build-deps build-base go git mercurial \
         && cp -R playbooks / \
         && rm -rf /go \
         && apk del --purge build-deps
+RUN apk-install ansible py2-pip \
+        && pip install --upgrade paramiko \
