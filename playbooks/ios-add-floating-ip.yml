@@ -1,0 +1,18 @@
+---
+- hosts: all 
+  gather_facts: true 
+  connection: local
+
+  tasks:
+   - name: Configure static NAT 
+     ios_config:
+       commands: ip nat inside source static {{ local_ip }} {{ global_ip }} vrf {{ vrf }}
+       provider: "{{ cli }}"
+
+  vars:
+    cli:
+      host: "{{ inventory_hostname }}"
+      username: "{{ ansible_env.IOS_USER }}"
+      password: "{{ ansible_env.IOS_PASS }}"
+      auth_pass: "{{ ansible_env.IOS_ENABLE_PASS }}"
+      authorize: true

@@ -1,0 +1,29 @@
+---
+- hosts: all 
+  gather_facts: true 
+  connection: local
+
+  tasks:
+   - name: Configure VRF 
+     ios_config:
+       commands: no ip vrf {{ vrf }}
+       provider: "{{ cli }}"
+
+   - name: Configure inside interface 
+     ios_config:
+       commands:
+         - no interface {{ ansible_env.INSIDE_INTERFACE }}.{{ vlan_id }}
+       provider: "{{ cli }}"
+
+   - name: Configure Dynamic PAT
+     ios_config:
+       commands: no ip nat inside source list NAT interface {{ ansible_env.OUTSIDE_INTERFACE }} vrf {{ vrf }} overload
+       provider: "{{ cli }}"
+
+  vars:
+    cli:
+      host: "{{ inventory_hostname }}"
+      username: "{{ ansible_env.IOS_USER }}"
+      password: "{{ ansible_env.IOS_PASS }}"
+      auth_pass: "{{ ansible_env.IOS_ENABLE_PASS }}"
+      authorize: true
